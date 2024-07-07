@@ -1,0 +1,145 @@
+borken access control
+Problem: Attackers exploit flaws in access control to access unauthorized functionality or data. Examples include altering URLs, internal application state, or HTML page, or simply using custom API attack tools.
+Solution: Implement robust access control checks both at the gateway and server-side.
+# Example using Flask framework in Python
+from flask import Flask, request, redirect, abort
+from user_roles import user_roles  # hypothetical module to manage user roles
+
+app = Flask(__name__)
+
+@app.route('/delete-user/<user_id>')
+def delete_user(user_id):
+    # Check if the user has admin role
+    if 'admin' not in user_roles(request.user):
+        abort(403)  # Forbidden access
+    # Proceed with user deletion logic
+    # ...
+    return "User deleted successfully", 200
+
+# Explanation:
+# - The route checks if the authenticated user has an 'admin' role.
+# - If not, it aborts the request with a 403 Forbidden status.
+# - This prevents unauthorized users from deleting users.
+
+ privilage escalation
+Problem: An attacker gains elevated access by exploiting a flaw in the system, allowing them to perform actions with more privileges than intended.
+Solution: Ensure proper session management and recheck permissions during sensitive operations.
+# Example using Flask framework in Python
+from flask import session, abort
+
+def execute_sensitive_action():
+    # Recheck user role from session before performing a sensitive operation
+    if session.get('user_role') != 'admin':
+        abort(403)  # Forbidden access
+    # Perform the sensitive operation
+    # ...
+    return "Sensitive action executed", 200
+
+# Explanation:
+# - Before executing a sensitive action, the function rechecks the user's role.
+# - It ensures that the user still has the necessary permissions, preventing privilege escalation.
+
+#### 3. **Insecure Direct Object References (IDOR)**
+Problem: An attacker accesses direct objects such as database records or files by altering an identifier value in a URL or request parameter.
+Solution: Use indirect object references or implement access checks before accessing direct object
+
+  # Example using Flask framework in Python
+from flask import request, abort
+from database import get_document  # hypothetical function to fetch documents
+
+@app.route('/document/<doc_id>')
+def get_document(doc_id):
+    document = get_document(doc_id)
+    # Verify that the current user has access to the requested document
+    if not user_has_access(request.user, document.owner_id):
+        abort(404)  # Not found or no access
+    return document.content
+
+# Explanation:
+# - The function fetches a document based on doc_id.
+
+  . Directory Traversal
+Problem: Attackers manipulate variables that reference files with "dot-dot-slash (../)" sequences or similar methods to access files or directories that are stored outside the intended directories.
+Solution: Validate and sanitize all input paths and restrict file access methods to safe directories only.
+import os
+from pathlib import Path
+
+def safe_file_access(file_path, base_directory):
+    # Normalize and resolve the absolute path
+    safe_base = Path(base_directory).resolve()
+    full_path = safe_base / file_path
+    full_path = full_path.resolve()
+
+    # Check if the resolved path starts with the base path
+    if not str(full_path).startswith(str(safe_base)):
+        raise ValueError("Unauthorized file access attempt")
+    
+    # Proceed to open the file safely
+    with open(full_path, 'r') as file:
+        return file.read()
+
+# Explanation:
+# - This function constructs a full path by combining the base directory and the user-provided file_path.
+# - It resolves the absolute path and checks if it starts with the base directory path.
+# - This prevents directory traversal attacks by ensuring that all file accesses are confined to a specific directory.
+# - It checks if the requesting user has access to the document based on ownership.
+# - This prevents unauthorized access to documents through direct object references.
+   Bypassing Authorization Mechanisms
+Problem: Attackers exploit flaws or bypass frontend checks to perform unauthorized actions, assuming the backend does not re-verify permissions.
+Solution: Always enforce authorization checks on the server side, regardless of any client-side controls.
+  # Example using Django framework in Python
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404
+from .models import Project  # Assuming a Project model exists
+
+def view_project(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    
+    # Check if the user is authorized to view the project
+    if not request.user.has_perm('view_project', project):
+        return HttpResponseForbidden("You do not have permission to view this project.")
+    
+    # Render project details page
+    # ...
+    return render(request, 'project_detail.html', {'project': project})
+
+# Explanation:
+# - This Django view retrieves a project by ID.
+# - It checks if the logged-in user has the permission to view the project using Django's built-in permissions system.
+# - This ensures that authorization is enforced on the server side, preventing bypassing of authorization mechanisms.
+
+   Insecure Direct Object Reference (IDOR)
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import JsonResponse, Http404
+from django.contrib.auth.models import User
+
+@login_required
+def get_user(request, user_id):
+    # Check if the logged-in user is requesting their own data or has admin privileges
+    if request.user.id != user_id and not request.user.is_staff:
+        # If not, raise a forbidden error
+        raise Http404("Forbidden")
+    try:
+        user = User.objects.get(pk=user_id)
+        return JsonResponse({"id": user.id, "username": user.username})
+    except User.DoesNotExist:
+        # If the user does not exist, raise an error
+        raise Http404("User not found")
+Authorization bypass
+from django.http import JsonResponse, HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def get_resource(request, resource_name):
+    # A simple dictionary to store resources
+    resources = {
+        "public": "This is a public resource",
+        "private": "This is a private resource"
+    }
+    # Check if the requested resource is private and if the user is authorized
+    if resource_name == 'private' and not request.user.is_authenticated:
+        # If not, return a forbidden response
+        return HttpResponseForbidden("Forbidden")
+    return JsonResponse({"resource": resources.get(resource_name)})
+
+  
