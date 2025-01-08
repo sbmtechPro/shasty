@@ -1,13 +1,11 @@
-Compensating Controls Request for Unquarantining spring-web:5.3.39
-Asset Information:
-Asset ID	MSR05657
-Asset Name	eTransfers-AWS
-CVSS Score	8.3
-Affected Dependency	spring-web:5.3.39
+The dependency `spring-web:5.3.39` is required to support the current build process and ensure compatibility with existing project requirements. However, this version is linked to CVE-2016-100027, which involves improper input validation that could lead to remote code execution under specific conditions. Despite this vulnerability, the version is critical for build stability and can be safely used with the following compensating controls.
+CVSS Information:
+CVSS Score: 8.1
+CVSS Vector: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N
 Business Justification:
-The use of spring-web:5.3.39 is required to ensure build stability and compatibility with existing project requirements. The current quarantined version is causing build failures, impacting development progress.
+We request the use of `spring-web:5.3.39` as it resolves previous vulnerabilities and is necessary for the successful completion of the build process. The risks associated with CVE-2016-100027 have been evaluated, and the following compensating controls mitigate the potential threats sufficiently.
 Compensating Controls Implemented:
-The following compensating controls have been implemented to mitigate potential risks associated with this vulnerability:
+The following compensating controls have been implemented to mitigate the risks associated with CVE-2016-100027:
 1. **Input Validation:**
    - Strict validation for externally provided URLs.
    - Only whitelisted domains and schemes allowed (e.g., https, http).
@@ -16,5 +14,4 @@ The following compensating controls have been implemented to mitigate potential 
    - Configured to block open redirect and SSRF attack patterns.
 3. **Regular Security Scans:**
    - Automated vulnerability scans scheduled weekly using approved tools.
-4. **Secure Coding Practices:**
-   - Code reviews and static analysis conducted to identify input validation flaws.
+
