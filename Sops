@@ -1,120 +1,21 @@
-Standard Operating Procedure (SOP) for CA Ticket Handling and Escalation
-Purpose:
-This SOP provides guidelines for handling Corrective Action (CA) tickets, ensuring that the appropriate escalation paths are followed, unnecessary tickets are avoided, and a smooth pre-release and cleanup process is maintained.
+Compensating Controls Request for Unquarantining spring-web:5.3.39
+Asset Information:
+- **Asset ID:** <Enter Asset ID>
+- **Asset Name:** <Enter Asset Name>
+- **CVSS Score:** <Enter CVSS Score>
+- **Affected Dependency:** spring-web:5.3.39
+- **Current Impact:** Build failure due to dependency quarantine.
+Business Justification:
+We require the use of `spring-web:5.3.39` as it is a critical dependency for our application build. The version provides necessary functionality and stability required for the current development cycle. Blocking this dependency is causing build failures and impacting project timelines.
+Compensating Controls Implemented:
+To mitigate the potential risks associated with the identified vulnerability, the following compensating controls are in place:
+1. **Web Application Firewall (WAF):** A WAF is implemented to monitor and block potential threats exploiting this vulnerability.
+2. **Regular Vulnerability Scanning:** Automated scans are performed weekly using `<Tool Name>` to identify new vulnerabilities.
+3. **Code Review and Secure Development Practices:** Secure coding practices are enforced through peer code reviews and static analysis tools like `<Tool Name>`.
+4. **Runtime Protection (RASP):** Runtime Application Self-Protection tools are integrated for real-time monitoring and threat mitigation.
+5. **Network Segmentation:** The application is hosted in a segmented network to limit lateral movement in case of an exploit.
+6. **Patch Management:** Dependency monitoring and patching through tools like Dependabot/Snyk are regularly enforced.
+Request for Unquarantine Approval:
+We have verified the effectiveness of the above controls and believe they provide sufficient protection against potential threats related to `spring-web:5.3.39`. We request approval to unquarantine this dependency for build stability and project progress.
 
-Scope:
-This procedure applies to all team members responsible for managing CA tickets, reaching out to relevant teams, and confirming compliance standards before release.
-
-1. Identifying the Type of CA Ticket
-Check the CA Ticket Source:
-Each CA ticket will be labeled as either AppSec or Infra.
-AppSec Tickets: Escalate to the VM (Vulnerability Management) team.
-Infra Tickets: Escalate to the VITM (Vulnerability Infrastructure Management) team.
-Before escalating to any team:
-
-First Contact Your Security Advisor (SA):
-Always consult your Security Advisor to investigate the issue. The Security Advisor will determine if further escalation to the VM or VITM teams is necessary.
-2. Handling CA Tickets After a Clean Scan Post-Release
-7-Day Waiting Period for Auto-Closure:
-After a clean scan following a release, CA tickets should automatically close within 7 days.
-
-Action if the Ticket Remains Open After 7 Days:
-If the CA ticket is still open after 7 days, reach out to your Security Advisor to investigate before opening any new tickets.
-
-3. Opening a CA Ticket with First Responders
-The team should open a CA ticket with First Responders under these specific circumstances:
-
-SCA, DAST, or SAST Scan Failures:
-If SCA (Software Composition Analysis), DAST (Dynamic Application Security Testing), or SAST (Static Application Security Testing) scans are failing.
-Before opening a ticket:
-
-Consult Your Security Advisor (SA):
-Your Security Advisor should investigate the root cause of the scan failure. Proceed to open a CA ticket only after confirmation from the Security Advisor.
-Additional Case: Zero North Cleanup Request
-
-Zero North Cleanup:
-The team can open a Jira ticket with First Responders if they need Zero North cleanup under the following conditions:
-A component associated with an active CA ticket has been retired or is no longer in use.
-The team wants to remove this component to close the CA ticket.
-Before opening a Zero North cleanup Jira ticket:
-
-Coordinate with the DCR (Data Component Repository) Team:
-
-Confirm the component has been archived or deleted by the DCR team.
-Obtain verification from the DCR team.
-Attach Documentation to the Jira Ticket:
-
-Include an archive request and screenshots that confirm the component has been removed.
-Attach these documents to the Jira ticket to support the Zero North cleanup request.
-4. Handling Overdue CA Tickets
-If a CA Ticket is Past Due:
-For any CA ticket that has exceeded its due date, request your VP to complete the disposition tracker and provide an explanation for the delay in resolving the ticket.
-5. Reassigning a CA Ticket
-If you receive a CA ticket that does not belong to your team, follow these steps to reassign it:
-
-Review the Ticket:
-Confirm the CA ticket does not apply to your team’s scope.
-
-Update the Assignment Group:
-
-Navigate to the Assignment Group field in the CA ticket.
-Update it to the correct team (e.g., VM Team for AppSec, VITM Team for Infra).
-Save the Changes:
-After updating the Assignment Group, hit Save at the top of the CA ticket.
-
-6. Pre-Release Scan Requirements and P2P Approval Process
-Before submitting for release:
-
-Ensure all components have completed the required scans and are compliant with:
-DAST API
-DAST
-SCA
-SAST
-Mandatory Pre-Release Checks:
-
-Run All Required Scans:
-Conduct and verify clean results from all scans before submitting for P2P (Peer-to-Peer) approval.
-
-High-Risk External Facing Assets:
-For assets classified as very high risk and external-facing, P2P approval will not proceed without confirmed compliance.
-
-Scan Results and PTO Approval:
-The scan results will determine if the component is compliant for PTO (Permission to Operate) approval.
-
-7. Scan Timeline
-14 Days Pre-Release:
-Run all required scans 14 days before the release to avoid delays in P2P approval due to unexpected scan issues.
-
-Within 15 Days Pre-Release:
-If scans are run within 15 days of the release, ensure results are available and ready for P2P approval.
-
-8. Special Consideration for Assets Without Code or Internal URLs
-No Code or Internal URL Assets:
-If an asset lacks code and internal URLs but is flagged for DAST, SCA, or SAST in the CMD (Component Metadata), work with the team to update the CMD non-core bar attributes to avoid unnecessary scans.
-9. Handling EVR CA Tickets (Manually Closed Process)
-EVR (External Vulnerability Response) CA Tickets:
-EVR tickets require manual closure. These are triggered by alerts from:
-Internal security teams
-Third-party security monitoring vendors
-Steps for Handling EVR CA Tickets:
-
-Investigate the Alert:
-Verify and resolve the alert that initiated the EVR ticket.
-
-Manually Close the Ticket:
-After confirming that the issue has been resolved, manually close the EVR ticket, as these do not close automatically.
-
-10. Handling CA Tickets Not Auto-Closing After 7 Days Post-Release
-If a CA ticket does not automatically close within 7 days post-release, follow these steps:
-
-Check Scan Execution:
-Verify that all required scans were completed on the component specified in the CA ticket, and that clean results were obtained.
-
-Verify the Component in the CA Ticket:
-If the component name in the CA ticket is different from the scanned component:
-
-Update the Component Name in the CA ticket.
-Rerun the scans on the correct component.
-Manually Close the Ticket if Necessary:
-After verifying that the correct component has been scanned with clean results, manually close the ticket if it does not close automatically.
 
