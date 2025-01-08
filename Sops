@@ -1,21 +1,20 @@
 Compensating Controls Request for Unquarantining spring-web:5.3.39
 Asset Information:
-- **Asset ID:** <Enter Asset ID>
-- **Asset Name:** <Enter Asset Name>
-- **CVSS Score:** <Enter CVSS Score>
-- **Affected Dependency:** spring-web:5.3.39
-- **Current Impact:** Build failure due to dependency quarantine.
+Asset ID	MSR05657
+Asset Name	eTransfers-AWS
+CVSS Score	8.3
+Affected Dependency	spring-web:5.3.39
 Business Justification:
-We require the use of `spring-web:5.3.39` as it is a critical dependency for our application build. The version provides necessary functionality and stability required for the current development cycle. Blocking this dependency is causing build failures and impacting project timelines.
+The use of spring-web:5.3.39 is required to ensure build stability and compatibility with existing project requirements. The current quarantined version is causing build failures, impacting development progress.
 Compensating Controls Implemented:
-To mitigate the potential risks associated with the identified vulnerability, the following compensating controls are in place:
-1. **Web Application Firewall (WAF):** A WAF is implemented to monitor and block potential threats exploiting this vulnerability.
-2. **Regular Vulnerability Scanning:** Automated scans are performed weekly using `<Tool Name>` to identify new vulnerabilities.
-3. **Code Review and Secure Development Practices:** Secure coding practices are enforced through peer code reviews and static analysis tools like `<Tool Name>`.
-4. **Runtime Protection (RASP):** Runtime Application Self-Protection tools are integrated for real-time monitoring and threat mitigation.
-5. **Network Segmentation:** The application is hosted in a segmented network to limit lateral movement in case of an exploit.
-6. **Patch Management:** Dependency monitoring and patching through tools like Dependabot/Snyk are regularly enforced.
-Request for Unquarantine Approval:
-We have verified the effectiveness of the above controls and believe they provide sufficient protection against potential threats related to `spring-web:5.3.39`. We request approval to unquarantine this dependency for build stability and project progress.
-
-
+The following compensating controls have been implemented to mitigate potential risks associated with this vulnerability:
+1. **Input Validation:**
+   - Strict validation for externally provided URLs.
+   - Only whitelisted domains and schemes allowed (e.g., https, http).
+   - Regex-based domain checks implemented for proper host validation.
+2. **Web Application Firewall (WAF):**
+   - Configured to block open redirect and SSRF attack patterns.
+3. **Regular Security Scans:**
+   - Automated vulnerability scans scheduled weekly using approved tools.
+4. **Secure Coding Practices:**
+   - Code reviews and static analysis conducted to identify input validation flaws.
