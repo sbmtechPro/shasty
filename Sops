@@ -1,19 +1,8 @@
-The application development got blocked as the Apache Struts 2 Tiles Plugin was quarantined in the Nexus repository due to a critical vulnerability in its dependency XStream < 1.4.21 (CVE-2024-47072, CVSS: 9.8).
-The vulnerability involves a Denial of Service (DoS) condition triggered by manipulating the binary input stream (BinaryStreamDriver class).
-The Kenna contextualization is High due to the potential impact on application availability.
-This vulnerability is exploitable only when deserializing untrusted binary data.
-The etransfer application does not use the vulnerable methods or classes (Evidence attached for references).
-The app team confirmed Struts2 usage with a patched version that is compatible with Java 17 and actively maintained.
-Mitigating/Compensating Controls
-Upgrade the Apache Struts 2 Tiles Plugin to a version that includes XStream 1.4.21 or later, where this vulnerability is patched.
-Verify that no deserialization of untrusted binary data occurs in the application.
-Implement AWS WAF 2.0 rules to block deserialization attempts at the firewall level.
-Conduct static code analysis and dependency scans to ensure no vulnerable versions are present.
-Residual Risk after Accounting for Compensating Controls
-Residual Risk: Medium
-(Refer to slide #3 for residual risk assessment summary.)
+We attempted to run a DAST scan on the Home Path application, but the scan was failing. To address this, we opened a Jira ticket to inform the FR team about the inability to obtain the DAST results. Upon review, Normula and Kinnera Reddy from the FR team confirmed that the application was not eligible for a DAST scan.
 
-This version now clearly reflects the issue with Apache Struts 2 and its dependency on XStream. Let me know if you need further adjustments!
+As per their guidance (as also reflected in the Jira ticket and attached comments), we updated the non-core bar attributes to indicate "DAST Eligibility: NO." For your reference, the PTO number associated with this update is 222222, and the RTM number is 3333.
+
+This series of actions explains why the application was marked as ineligible for a DAST scan. Please let me know if further clarification is required.
 
 
 
