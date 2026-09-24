@@ -3,10 +3,10 @@ Problem: Attackers exploit flaws in access control to access unauthorized functi
 Solution: Implement robust access control checks both at the gateway and server-side.
 # Example using Flask framework in Python
 from flask import Flask, request, redirect, abort
-from user_roles import user_roles  # hypothetical module to manage user roles
+from user_roles import user_rolesgg  # hypothetical module to manage user roles
 
-app = Flask(__name__)
-
+app = Flask(__name__) kkey:
+hf_eiCfffaeJKfVyQfPiXaPyiCqayUUcOvVU
 @app.route('/delete-user/<user_id>')
 def delete_user(user_id):
     # Check if the user has admin role
