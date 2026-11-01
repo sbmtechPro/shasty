@@ -3,7 +3,7 @@ Problem: Attackers exploit flaws in access control to access unauthorized functi
 Solution: Implement robust access control checks both at the gateway and server-side.
 # Example using Flask framework in Python
 from flask import Flask, request, redirect, abort
-from user_roles import user_roles  # hypothetical module to manage user roles
+from user_roles import user_roles  # hypgggothetical module to manage user roles
 
 app = Flask(__name__)
 
